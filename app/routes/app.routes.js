@@ -37,6 +37,14 @@ app.get('/logout', function(req, res) {
   res.redirect('/');
 });
 
+//Google login
+app.get('/auth/google',passport.authenticate('google',{scope:['profile','email']}));
+//callback to redirect user once the user has authenticated
+app.get('/auth/google/callback',passport.authenticate('google',{
+  successRedirect:'/profile',
+  failureRedirect:'/'
+}));
+
 };
 
 function loggedIn(req, res, next) {
