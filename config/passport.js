@@ -105,31 +105,49 @@ module.exports = function(passport) {
       clientID: authConfig.googleAuth.clientID,
       clientSecret: authConfig.googleAuth.clientSecret,
       callbackURL: authConfig.googleAuth.callbackURL,
-
+      passReqToCallback: true //allow us to pass req data to the following function
     },
-    function(token, refreshToken, profile, done) {
+    function(req,token, refreshToken, profile, done) {
       process.nextTick(function() {
-        //user.findOne wont invoke till we get all data from Google
-        User.findOne({
-          'google.id': profile.id
-        }, function(err, user) {
-          if (err) return done(err);
-          if (user) {
-            return done(null, user);
-          } else {
-            //if the user is not found,create and store into database
-            var newUser = new User();
-            newUser.google.id = profile.id;
-            newUser.google.token = token;
-            newUser.google.name = profile.displayName;
-            newUser.google.email = profile.emails[0].value;
+        //check if user is already logged in
+        if(!req.user){
+          //user.findOne wont invoke till we get all data from Google
+          User.findOne({
+            'google.id': profile.id
+          }, function(err, user) {
+            if (err) return done(err);
+            if (user) {
+              return done(null, user);
+            } else {
+              //if the user is not found,create and store into database
+              var newUser = new User();
+              newUser.google.id = profile.id;
+              newUser.google.token = token;
+              newUser.google.name = profile.displayName;
+              newUser.google.email = profile.emails[0].value;
 
-            newUser.save(function(err) {
-              if (err) return done(err);
-              return done(null, newUser);
-            });
-          }
-        });
+              newUser.save(function(err) {
+                if (err) return done(err);
+                return done(null, newUser);
+              });
+            }
+          });
+        }else {
+          //link up accounts for existing and logged in user
+          var user = req.user;
+
+          //update current user
+          user.google.id=profile.id;
+          user.google.token = token;
+          user.google.name = profile.displayName;
+          user.google.email = profile.emails[0].value;
+
+          user.save(function(err){
+            if (err) return done(err);
+            return done(null,user);
+          });
+        }
+
       });
     }
   ));
@@ -140,30 +158,48 @@ module.exports = function(passport) {
       clientID: authConfig.facebookAuth.clientID,
       clientSecret: authConfig.facebookAuth.clientSecret,
       callbackURL: authConfig.facebookAuth.callbackURL,
-      profileFields: ['id', 'displayName', 'email']
+      profileFields: ['id', 'displayName', 'email'],
+      passReqToCallback: true //allow us to pass req data to the following function
     },
     //callback to receive data from facebookAuth
-    function(token, refreshToken, profile, done) {
+    function(req, token, refreshToken, profile, done) {
       process.nextTick(function() {
-        User.findOne({
-          'facebook.id': profile.id
-        }, function(err, user) {
-          if (err) return done(err);
-          if (user) {
-            return done(null, user);
-          } else {
-            var newUser = new User();
-            newUser.facebook.id = profile.id;
-            newUser.facebook.token = token;
-            newUser.facebook.name = profile.displayName;
-            newUser.facebook.email = profile.emails[0].value;
+        if(!req.user){
+          User.findOne({
+            'facebook.id': profile.id
+          }, function(err, user) {
+            if (err) return done(err);
+            if (user) {
+              return done(null, user);
+            } else {
+              var newUser = new User();
+              newUser.facebook.id = profile.id;
+              newUser.facebook.token = token;
+              newUser.facebook.name = profile.displayName;
+              newUser.facebook.email = profile.emails[0].value;
 
-            newUser.save(function(err) {
-              if (err) return done(err);
-              return done(null, newUser);
-            });
-          }
-        });
+              newUser.save(function(err) {
+                if (err) return done(err);
+                return done(null, newUser);
+              });
+            }
+          });
+        }else{
+          //link up accounts for existing and logged in user
+          var user = req.user;
+
+          //update current user
+          user.facebook.id=profile.id;
+          user.facebook.token = token;
+          user.facebook.name = profile.displayName;
+          user.facebook.email = profile.emails[0].value;
+
+          user.save(function(err){
+            if (err) return done(err);
+            return done(null,user);
+          });
+        }
+
       });
     }
   ));
@@ -172,28 +208,46 @@ module.exports = function(passport) {
   passport.use(new TwitterStrategy({
     consumerKey: authConfig.twitterAuth.consumerKey,
     consumerSecret: authConfig.twitterAuth.consumerSecret,
-    callbackURL: authConfig.twitterAuth.callbackURL
+    callbackURL: authConfig.twitterAuth.callbackURL,
+    passReqToCallback: true
   },
-  function(token,tokenSecret,profile,done){
+  function(req,token,tokenSecret,profile,done){
     process.nextTick(function(){
-      User.findOne({'twitter.id':profile.id},function(err,user){
-        if(err) return done(err);
-        if(user){
+      if(!req.user){
+        User.findOne({'twitter.id':profile.id},function(err,user){
+          if(err) return done(err);
+          if(user){
+            return done(null,user);
+          }else {
+            var newUser = new User();
+
+            newUser.twitter.id = profile.id;
+            newUser.twitter.token = token;
+            newUser.twitter.username = profile.username;
+            newUser.twitter.displayName = profile.displayName;
+
+            newUser.save(function(err){
+              if(err) return done(err);
+              return done(null,newUser);
+            });
+          }
+        });
+      }else {
+        //link up accounts for existing and logged in user
+        var user = req.user;
+
+        //update current user
+        user.twitter.id=profile.id;
+        user.twitter.token = token;
+        user.twitter.username = profile.username;
+        user.twitter.displayName = profile.displayName;
+
+        user.save(function(err){
+          if (err) return done(err);
           return done(null,user);
-        }else {
-          var newUser = new User();
+        });
+      }
 
-          newUser.twitter.id = profile.id;
-          newUser.twitter.token = token;
-          newUser.twitter.username = profile.username;
-          newUser.twitter.displayName = profile.displayName;
-
-          newUser.save(function(err){
-            if(err) return done(err);
-            return done(null,newUser);
-          });
-        }
-      });
     });
   }
 ));
@@ -202,31 +256,46 @@ module.exports = function(passport) {
 passport.use(new GithubStrategy({
   clientID: authConfig.githubAuth.clientID,
   clientSecret: authConfig.githubAuth.clientSecret,
-  callbackURL: authConfig.githubAuth.callbackURL
+  callbackURL: authConfig.githubAuth.callbackURL,
+  passReqToCallback: true
 },
-function(accessToken, refreshToken, profile, done){
+function(req,accessToken, refreshToken, profile, done){
   process.nextTick(function(){
-    User.findOne({'github.id':profile.id},function(err,user){
-      if(err) return done(err);
-      if(user){
+    if(!req.user){
+      User.findOne({'github.id':profile.id},function(err,user){
+        if(err) return done(err);
+        if(user){
+          return done(null,user);
+        }else {
+          var newUser = new User();
+
+          newUser.github.id = profile.id;
+          newUser.github.token = accessToken;
+          newUser.github.username = profile.username;
+          newUser.github.name = profile.displayName;
+
+          newUser.save(function(err){
+            if(err) return done(err);
+            return done(null, newUser);
+          });
+        }
+      });
+    }else {
+      //link up accounts for existing and logged in user
+      var user = req.user;
+
+      //update current user
+      user.github.id=profile.id;
+      user.github.token = accessToken;
+      user.github.username = profile.username;
+      user.github.name = profile.displayName;
+
+      user.save(function(err){
+        if (err) return done(err);
         return done(null,user);
-      }else {
-        var newUser = new User();
+      });
+    }
 
-                console.log(profile.id);
-        console.log(profile);
-
-        newUser.github.id = profile.id;
-        newUser.github.token = accessToken;
-        newUser.github.username = profile.username;
-        newUser.github.name = profile.displayName;
-
-        newUser.save(function(err){
-          if(err) return done(err);
-          return done(null, newUser);
-        });
-      }
-    });
   });
 }
 ));
