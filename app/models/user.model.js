@@ -4,8 +4,10 @@ var mongoose = require('mongoose'),
 var userSchema = mongoose.Schema({
 
   local: {
+    firstName: String,
+    lastName: String,
     email: String,
-    password: String,
+    password: String
   },
   facebook: {
     id: String,
@@ -27,7 +29,7 @@ var userSchema = mongoose.Schema({
   }
 
 });
-
+//bcrypt
 userSchema.pre('save', function(next) {
   var user = this;
   //generate the saltRounds
@@ -46,6 +48,15 @@ userSchema.methods.authenticate = function (password,callback){
   //compare password
   bcrypt.compare(password,this.local.password,function(err,is_match){
     callback(null,is_match);
+  });
+
+  //vitual attributes
+  userSchema.virtual('fullName').get(function() {
+    return this.firstName + ' ' + this.lastName;
+  });
+  //register the modifiers
+  userSchema.set('toJSON', {
+    virtuals: true
   });
 
 };

@@ -1,5 +1,7 @@
 var LocalStrategy = require('passport-local').Strategy,
-  GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
+  GoogleStrategy = require('passport-google-oauth').OAuth2Strategy,
+  FacebookStrategy = require('passport-facebook').Strategy,
+  TwitterStrategy = require('passport-twitter').Strategy;
 
 var User = require('../app/models/user.model'),
   authConfig = require('./auth');
@@ -98,7 +100,7 @@ module.exports = function(passport) {
 
   //GOOGLE LOGIN
   passport.use(new GoogleStrategy({
-
+      //pass in all the required data from ./config/auth
       clientID: authConfig.googleAuth.clientID,
       clientSecret: authConfig.googleAuth.clientSecret,
       callbackURL: authConfig.googleAuth.callbackURL,
@@ -131,9 +133,70 @@ module.exports = function(passport) {
     }
   ));
 
+  //FACEBOOK LOGIN
+  passport.use(new FacebookStrategy({
+      //pass in required data from ./config/auth
+      clientID: authConfig.facebookAuth.clientID,
+      clientSecret: authConfig.facebookAuth.clientSecret,
+      callbackURL: authConfig.facebookAuth.callbackURL,
+      profileFields: ['id', 'displayName', 'email']
+    },
+    //callback to receive data from facebookAuth
+    function(token, refreshToken, profile, done) {
+      process.nextTick(function() {
+        User.findOne({
+          'facebook.id': profile.id
+        }, function(err, user) {
+          if (err) return done(err);
+          if (user) {
+            return done(null, user);
+          } else {
+            var newUser = new User();
+            console.log(profile);
+            newUser.facebook.id = profile.id;
+            newUser.facebook.token = token;
+            newUser.facebook.name = profile.displayName;
+            newUser.facebook.email = profile.emails[0].value;
 
+            newUser.save(function(err) {
+              if (err) return done(err);
+              return done(null, newUser);
+            });
+          }
+        });
+      });
+    }
+  ));
 
+  //TWITTER
+  passport.use(new TwitterStrategy({
+    consumerKey: authConfig.twitterAuth.consumerKey,
+    consumerSecret: authConfig.twitterAuth.consumerSecret,
+    callbackURL: authConfig.twitterAuth.callbackURL
+  },
+  function(token,tokenSecret,profile,done){
+    process.nextTick(function(){
+      User.findOne({'twitter.id':profile.id},function(err,user){
+        if(err) return done(err);
+        if(user){
+          return done(null,user);
+        }else {
+          var newUser = new User();
 
+          newUser.twitter.id = profile.id;
+          newUser.twitter.token = token;
+          newUser.twitter.username = profile.username;
+          newUser.twitter.displayName = profile.displayName;
+
+          newUser.save(function(err){
+            if(err) return done(err);
+            return done(null,newUser);
+          });
+        }
+      });
+    });
+  }
+));
 
 
 
