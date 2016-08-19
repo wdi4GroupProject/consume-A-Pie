@@ -1,7 +1,8 @@
 var LocalStrategy = require('passport-local').Strategy,
   GoogleStrategy = require('passport-google-oauth').OAuth2Strategy,
   FacebookStrategy = require('passport-facebook').Strategy,
-  TwitterStrategy = require('passport-twitter').Strategy;
+  TwitterStrategy = require('passport-twitter').Strategy,
+  GithubStrategy = require('passport-github2').Strategy;
 
 var User = require('../app/models/user.model'),
   authConfig = require('./auth');
@@ -152,7 +153,6 @@ module.exports = function(passport) {
             return done(null, user);
           } else {
             var newUser = new User();
-            console.log(profile);
             newUser.facebook.id = profile.id;
             newUser.facebook.token = token;
             newUser.facebook.name = profile.displayName;
@@ -198,6 +198,38 @@ module.exports = function(passport) {
   }
 ));
 
+//Github
+passport.use(new GithubStrategy({
+  clientID: authConfig.githubAuth.clientID,
+  clientSecret: authConfig.githubAuth.clientSecret,
+  callbackURL: authConfig.githubAuth.callbackURL
+},
+function(accessToken, refreshToken, profile, done){
+  process.nextTick(function(){
+    User.findOne({'github.id':profile.id},function(err,user){
+      if(err) return done(err);
+      if(user){
+        return done(null,user);
+      }else {
+        var newUser = new User();
+
+                console.log(profile.id);
+        console.log(profile);
+
+        newUser.github.id = profile.id;
+        newUser.github.token = accessToken;
+        newUser.github.username = profile.username;
+        newUser.github.name = profile.displayName;
+
+        newUser.save(function(err){
+          if(err) return done(err);
+          return done(null, newUser);
+        });
+      }
+    });
+  });
+}
+));
 
 
 

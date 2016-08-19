@@ -59,6 +59,12 @@ app.get('/auth/twitter/callback',passport.authenticate('twitter',{
   failureRedirect:'/'
 }));
 
+//github
+app.get('/auth/github',passport.authenticate('github',{scope:'email'}));
+app.get('/auth/github/callback',passport.authenticate('github',{
+  successRedirect: '/profile',
+  failureRedirect:'/'
+}));
 
 
 
