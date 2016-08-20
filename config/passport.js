@@ -170,6 +170,9 @@ module.exports = function(passport) {
           }, function(err, user) {
             if (err) return done(err);
             if (user) {
+              // if(!user.facebook.token){
+              //
+              // }
               return done(null, user);
             } else {
               var newUser = new User();
