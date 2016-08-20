@@ -32,7 +32,15 @@ var userSchema = mongoose.Schema({
     token: String,
     username: String,
     name: String
-  }
+  },
+  favourite_list: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Recipe'
+  }],
+  black_list: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Recipe'
+  }]
 
 });
 //bcrypt
