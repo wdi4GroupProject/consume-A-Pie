@@ -9,7 +9,7 @@
   <div class="col-sm-6">
     <div class="well">
       <h3><span class="fa fa-user"></span>User Profile</h3>
-          <p><strong>Name</strong>:<%=user.google.name|| user.facebook.name || user.twitter.displayName ||user.github.username  %>
+          <p><strong>Name</strong>:<%=user.google.name|| user.facebook.name || user.twitter.name ||user.github.username  %>
           <p><strong>Email</strong>:<%= user.local.email || user.facebook.email || user.google.email ||user.github.email %></p>
           <br>
           <!-- check if the user has this token (is the user authenticated with this social account) -->
