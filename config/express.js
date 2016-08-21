@@ -44,6 +44,8 @@ module.exports = function() {
 
   // routes
   require('../app/routes/app.routes')(app, passport); // load our routes and pass in our app and fully configured passport
+  require('../app/routes/recipes.routes')(app);
+  require('../app/routes/meal.routes')(app);
 
   app.use(express.static('./public'));
 
