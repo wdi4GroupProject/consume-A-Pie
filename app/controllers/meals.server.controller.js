@@ -1,5 +1,4 @@
 var Meal = require('mongoose').model('Meal');
-var Recipe = require('mongoose').model('Recipe');
 module.exports = {
   create: function(req, res, next) {
     var meal = new Meal(req.body);
