@@ -9,7 +9,7 @@ module.exports =function(app){
   .get(mealsController.showRecipes)
   .delete(mealsController.deleteRecipe);
 
-  //show meals on a selected day by a method of'get' with parameters 'day' and 'user_id'
+  //show meals on a selected day by a method of'get' with parameters 'start','end' days and 'user_id'
   app.route('/API/meals?')
   .get(mealsController.showMealsByDay);
 
