@@ -3,7 +3,6 @@ module.exports = {
   all: function(req, res, next) {
     Recipe.find({}, function(err, recipes) {
       if (err) return next(err);
-      res.status(404);
       res.json(recipes);
     });
   },
