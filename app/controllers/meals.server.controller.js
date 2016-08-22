@@ -1,11 +1,21 @@
 var Meal = require('mongoose').model('Meal');
 module.exports = {
   create: function(req, res, next) {
-    var meal = new Meal(req.body);
-    meal.save(function(err) {
+    var day = new Date(req.body.day);
+    Meal.find({}, {
+      user_id: req.body.user_id,
+      day: day
+    }).exec(function(err, meals) {
       if (err) return next(err);
-      res.json(meal);
+      var meal_num = meals.length;
+      var meal = new Meal(req.body);
+      meal.meal_num = meal_num;
+      meal.save(function(err) {
+        if (err) return next(err);
+        res.json(meal);
     });
+
+  });
   },
   addRecipes: function(req, res, next) {
     Meal.findOne({
@@ -48,8 +58,17 @@ module.exports = {
     var start_date = new Date(req.query.start),
       end_date = new Date(req.query.end);
 
-    Meal.find({$and:[{"day":{$gte:start_date,$lte:end_date}},{user_id:req.query.user_id}]},function(err,meals){
-      if(err) return next(err);
+    Meal.find({
+      $and: [{
+        "day": {
+          $gte: start_date,
+          $lte: end_date
+        }
+      }, {
+        user_id: req.query.user_id
+      }]
+    }, function(err, meals) {
+      if (err) return next(err);
       res.json(meals);
     });
     // Meal.find(

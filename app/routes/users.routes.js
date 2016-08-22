@@ -4,4 +4,7 @@ module.exports = function(app){
   app.route('/API/users?')
   .put(usersController.userPreference);
 
+  app.route('/API/users/list?')
+  .get(usersController.preferenceList);
+
 };

@@ -20,6 +20,22 @@ module.exports = {
         });
       }
     });
+  },
+  preferenceList: function(req,res,next){
+
+
+      if(req.query.action=='like'){
+        User.findOne({_id:req.query.user_id}).populate('favourite_list').exec(function(err,user){
+          if(err) return next(err);
+          res.json(user.favourite_list);
+      });}
+      if(req.query.action=='dislike'){
+        User.findOne({_id:req.query.user_id}).populate('black_list').exec(function(err,user){
+          if(err) return next(err);
+          res.json(user.black_list);
+      });
+
+    }
   }
 
 
