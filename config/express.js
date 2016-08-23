@@ -6,10 +6,15 @@ var config = require('./config'),
   morgan = require('morgan'),
   compress = require('compression'),
   methodOverride = require('method-override'),
+  expressJWT = require('express-jwt'),
+  morgan = require('morgan'),
   cookieParser = require('cookie-parser'),
+  jwt = require('jsonwebtoken'),
   bodyParser = require('body-parser'),
   session = require('express-session'),
   expressLayouts = require('express-ejs-layouts');
+var jwt_secret = 'wdi4team5jwtsecret';
+
 
 module.exports = function() {
   var app = express();
@@ -20,6 +25,32 @@ module.exports = function() {
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
     next();
   });
+  //jwt setup
+  app.use(expressJWT({
+      secret: jwt_secret
+    })
+    .unless({
+      path: ['/signup',
+        '/login',
+        '/API/login',
+        'API/signup',
+        '/'
+        // {
+        //   url: '/api/movies',
+        //   methods: ['GET']
+        // }, {
+        //   url: '/api/actors',
+        //   methods: ['GET']
+        // }, {
+        //   url: new RegExp('/api/movies.*/', 'i'),
+        //   methods: ['GET']
+        // }, {
+        //   url: new RegExp('/api/actors.*/', 'i'),
+        //   methods: ['GET']
+        // },
+      ]
+    })
+  );
   // initialize the required module
   if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
     app.use(morgan('dev'));
@@ -43,6 +74,8 @@ module.exports = function() {
   app.use(passport.initialize());
   app.use(passport.session()); // persistent login sessions
   app.use(flash()); // use connect-flash for flash messages stored in session
+
+
 
   app.set('views', './app/views');
   app.set('view engine', 'ejs');

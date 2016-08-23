@@ -11,7 +11,6 @@ module.exports = {
     //     res.json(recipes);
     //   });
     // });
-    console.log(req.query.user_id)
     if (req.query.user_id){
       Recipe.findAllExcludeBlackList(req.query.user_id,function(err, recipes) {
         if (err) return next(err);
