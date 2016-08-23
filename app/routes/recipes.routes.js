@@ -7,8 +7,10 @@ module.exports =function(app){
   app.route('/recipe')
   .get(recipesController.adminall);
 
-  app.get('/recipe/new', recipesController.new);
 
+  app.route('/recipe/new')
+  .get(recipesController.new)
+  .post(recipesController.create);
 
   //get a recipe by id API url
   app.route('/API/recipes/:id')
