@@ -36,7 +36,7 @@ var recipeSchema = new mongoose.Schema({
   timestamps: {createdAt: 'created_at'} }
 );
 
-recipeSchema.statics.findAllNoneBlackList = function(user_id,callback){
+recipeSchema.statics.findAllExcludeBlackList = function(user_id,callback){
   var that = this;
   User.findOne({_id:user_id}).exec(function(err,user){
     if(err) return next(err);

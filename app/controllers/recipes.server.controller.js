@@ -11,10 +11,10 @@ module.exports = {
     //     res.json(recipes);
     //   });
     // });
-    Recipe.findAllNoneBlackList(req.query.user_id,function(err, recipes) {
-        if (err) return next(err);
-        res.json(recipes);
-      });
+    Recipe.findAllExcludeBlackList(req.query.user_id,function(err, recipes) {
+      if (err) return next(err);
+      res.json(recipes);
+    });
 
   },
   show: function(req, res, next) {
