@@ -1,5 +1,5 @@
 var mongoose = require('mongoose');
-
+var User = require('mongoose').model('User');
 var recipeSchema = new mongoose.Schema({
 
   title: {
@@ -35,6 +35,18 @@ var recipeSchema = new mongoose.Schema({
 {
   timestamps: {createdAt: 'created_at'} }
 );
+
+recipeSchema.statics.findAllNoneBlackList = function(user_id,callback){
+  var that = this;
+  User.findOne({_id:user_id}).exec(function(err,user){
+    if(err) return next(err);
+    var black_list = user.black_list;
+    that.find({_id:{$nin: black_list }}, callback);
+  });
+};
+
+
+
 
 //register the schema
 var Recipe = mongoose.model('Recipe', recipeSchema);
