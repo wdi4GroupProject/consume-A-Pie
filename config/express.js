@@ -33,7 +33,7 @@ module.exports = function() {
       path: ['/signup',
         '/login',
         '/API/login',
-        'API/signup',
+        '/API/signup',
         '/'
         // {
         //   url: '/api/movies',
