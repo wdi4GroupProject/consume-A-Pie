@@ -5,11 +5,12 @@ module.exports =function(app){
   .get(recipesController.all);
 
   app.route('/recipe')
-  .get(recipesController.adminall)
+  .get(recipesController.adminall);
 
-  app.get('/recipe/new', recipesController.new)
+  app.get('/recipe/new', recipesController.new);
 
 
   //get a recipe by id API url
   app.route('/API/recipes/:id')
-  .get(recipesController.show);}
+  .get(recipesController.show);
+};
