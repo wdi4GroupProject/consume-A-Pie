@@ -1,40 +1,47 @@
-<h2>Enter new Recipes (for Admins)</h2>
-
-<form method="post" action="/recipe/new">
-  <div class="form-group">
-    <label for="title">Title</label>
-    <input class="form-control" placeholder="string" type="text" name="title" id="title">
-  </div>
-
-  <div class="form-group">
-    <label for="source">Source</label>
-    <input class="form-control" placeholder="string" type="text" name="source" id="source">
-  </div>
-
-  <div class="form-group">
-    <label for="source_id">Source ID</label>
-    <input class="form-control" placeholder="string" type="text" name="source_id" id="source_id">
-  </div>
-
-  <div class="form-group">
-    <label for="ingredients">Ingredients</label>
-    <input class="form-control" placeholder="array, string" type="text" name="ingredients" id="ingredients">
-  </div>
-
-  <div class="form-group">
-    <label for="image_url">Image URL</label>
-    <input class="form-control" placeholder="string" type="text" name="image_url" id="image_url">
-  </div>
-
-    <div class="form-group">
-      <label for="directions">Directions</label>
-      <input class="form-control" placeholder="string, html" type="text" name="directions" id="directions">
+<div class="col-md-5">
+    <div class="col-md-10 col-md-offset-1">
+        <h2>Enter new Recipes (for Admins)</h2>
     </div>
+    <div class="jumbotron">
+        <form method="post" action="/recipe/new">
+            <div class="form-group">
+                <label for="title">Title</label>
+                <input class="form-control" placeholder="string" type="text" name="title" id="title">
+            </div>
 
-  <div class="form-group">
-    <label for="total_calories">Total Calories</label>
-    <input class="total_calories" placeholder="number" type="text" name="total_calories" id="total_calories">
-  </div>
+            <div class="form-group">
+                <label for="source">Source</label>
+                <input class="form-control" placeholder="string" type="text" name="source" id="source">
+            </div>
 
-  <input class="btn btn-default" type="submit">
-</form>
+            <div class="form-group">
+                <label for="source_id">Source ID</label>
+                <input class="form-control" placeholder="string" type="text" name="source_id" id="source_id">
+            </div>
+
+            <div class="form-group">
+                <label for="ingredients">Ingredients</label>
+                <input class="form-control" placeholder="array, string" type="text" name="ingredients" id="ingredients">
+            </div>
+
+            <div class="form-group">
+                <label for="image_url">Image URL</label>
+                <input class="form-control" placeholder="string" type="text" name="image_url" id="image_url">
+            </div>
+
+            <div class="form-group">
+                <label for="directions">Directions</label>
+                <input class="form-control" placeholder="string, html" type="text" name="directions" id="directions">
+            </div>
+
+            <div class="form-group">
+                <label for="total_calories">Total Calories</label>
+                <input class="form-control" placeholder="number" type="text" name="total_calories" id="total_calories">
+            </div>
+
+            <div class="col-md-2 col-md-offset-5">
+                <input class="btn btn-primary" type="submit">
+            </div>
+        </form>
+    </div>
+</div>
