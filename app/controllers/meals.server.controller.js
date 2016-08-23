@@ -2,12 +2,15 @@ var Meal = require('mongoose').model('Meal');
 module.exports = {
   create: function(req, res, next) {
     var day = new Date(req.body.day);
-    Meal.find({}, {
-      user_id: req.body.user_id,
-      day: day
+    Meal.find({
+      $and: [{
+        day: day
+      }, {
+        user_id: req.body.user_id
+      }]
     }).exec(function(err, meals) {
       if (err) return next(err);
-      var meal_num = meals.length;
+      var meal_num = meals.length+1;
       var meal = new Meal(req.body);
       meal.meal_num = meal_num;
       meal.save(function(err) {
@@ -32,7 +35,7 @@ module.exports = {
   showRecipes: function(req, res, next) {
     Meal.findOne({
       _id: req.params.id
-    }, function(err, recipes) {
+    }).populate('recipes').exec(function(err, recipes) {
       if (err) return next(err);
       res.json(recipes);
     });
@@ -67,7 +70,7 @@ module.exports = {
       }, {
         user_id: req.query.user_id
       }]
-    }, function(err, meals) {
+    }).populate('recipes').exec(function(err, meals) {
       if (err) return next(err);
       res.json(meals);
     });
