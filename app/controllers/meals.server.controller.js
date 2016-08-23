@@ -6,7 +6,7 @@ module.exports = {
       $and: [{
         day: day
       }, {
-        user_id: req.query.user_id
+        user_id: req.body.user_id
       }]
     }).exec(function(err, meals) {
       if (err) return next(err);
