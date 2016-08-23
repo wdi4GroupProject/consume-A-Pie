@@ -10,8 +10,7 @@ module.exports = {
       }]
     }).exec(function(err, meals) {
       if (err) return next(err);
-      var meal_num = meals.length;
-      if(meal_num ===0){meal_num=1;}
+      var meal_num = meals.length+1;
       var meal = new Meal(req.body);
       meal.meal_num = meal_num;
       meal.save(function(err) {
