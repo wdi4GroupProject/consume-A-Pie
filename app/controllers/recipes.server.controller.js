@@ -22,10 +22,17 @@ module.exports = {
     });
   },
   new: function(req, res, next) {
-
     res.render('users/adminPOST', {
       title: 'Admins add recipes here'
     });
+  },
+  create: function(req, res, next) {
+    var new_recipe = new Recipe(req.body);
+    new_recipe.save(function(err) {
+      if (err) return next(err);
+      res.json(new_recipe);
+      });
+
 
     // var new_recipe = new Recipe(req.body);
     // new_recipe.save(function(err){
