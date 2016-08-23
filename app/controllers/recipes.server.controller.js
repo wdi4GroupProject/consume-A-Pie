@@ -14,5 +14,27 @@ module.exports = {
       if (err) return next(err);
       res.json(recipe);
     });
+  },
+  adminall: function(req, res, next) {
+    Recipe.find({}, function(err, recipes) {
+      if (err) return next(err);
+      res.status(404);
+      res.json(recipes);
+    });
+  },
+  new: function(req, res, next) {
+
+    res.render('users/adminPOST', {
+      title: 'Admins add recipes here'
+    });
+
+    // var new_recipe = new Recipe(req.body);
+    // new_recipe.save(function(err){
+    //   if(err) return next(err);
+    //   res.json(new_recipe);
+    // });
+
   }
+
+
 };
