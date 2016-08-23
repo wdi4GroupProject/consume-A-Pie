@@ -74,28 +74,28 @@ app.get('/auth/github/callback',passport.authenticate('github',{
 //   failureFlash: true
 // }));
 //google authorization
-app.get('/connect/google',loggedIn,passport.authorize('google',{
+app.get('/connect/google',passport.authorize('google',{
   scope:['profile','email']}));
 app.get('/connect/google/callback',passport.authorize('google',{
   successRedirect:'/profile',
   failureRedirect:'/'
 }));
 //facebook authorization
-app.get('/connect/facebook',loggedIn,passport.authorize('facebook',{
+app.get('/connect/facebook',passport.authorize('facebook',{
   scope:'email'}));
 app.get('/connect/facebook/callback',passport.authorize('facebook',{
   successRedirect:'/profile',
   failureRedirect:'/'
 }));
 //twitter authorization
-app.get('/connect/twitter',loggedIn,passport.authorize('twitter',{
+app.get('/connect/twitter',passport.authorize('twitter',{
   scope:'email'}));
 app.get('/connect/twitter/callback',passport.authorize('twitter',{
   successRedirect:'/profile',
   failureRedirect:'/'
 }));
 //github authorization
-app.get('/connect/github',loggedIn,passport.authorize('github',{
+app.get('/connect/github',passport.authorize('github',{
   scope:'email'}));
 app.get('/connect/github/callback',passport.authorize('github',{
   successRedirect:'/profile',
@@ -104,7 +104,7 @@ app.get('/connect/github/callback',passport.authorize('github',{
 
 //unlink account
 //google
-app.get('/unlink/google',loggedIn,function(req,res){
+app.get('/unlink/google',function(req,res){
   var user = req.user;
   user.google.token = undefined;
   user.save(function(err){
@@ -113,7 +113,7 @@ app.get('/unlink/google',loggedIn,function(req,res){
   });
 });
 //facebook
-app.get('/unlink/facebook',loggedIn,function(req,res){
+app.get('/unlink/facebook',function(req,res){
   var user = req.user;
   user.facebook.token = undefined;
   user.save(function(err){
@@ -122,7 +122,7 @@ app.get('/unlink/facebook',loggedIn,function(req,res){
   });
 });
 //twitter
-app.get('/unlink/twitter',loggedIn,function(req,res){
+app.get('/unlink/twitter',function(req,res){
   var user = req.user;
   user.twitter.token = undefined;
   user.save(function(err){
@@ -131,7 +131,7 @@ app.get('/unlink/twitter',loggedIn,function(req,res){
   });
 });
 //github
-app.get('/unlink/github',loggedIn,function(req,res){
+app.get('/unlink/github',function(req,res){
   var user = req.user;
   user.github.token = undefined;
   user.save(function(err){
