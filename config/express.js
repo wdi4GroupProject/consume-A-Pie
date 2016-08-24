@@ -38,7 +38,29 @@ module.exports = function() {
         '/profile',
         '/recipe',
         '/recipe/new',
-        
+        '/logout',
+        '/auth/google',
+        '/auth/google/callback',
+        '/auth/facebook',
+        '/auth/facebook/callback',
+        '/auth/twitter',
+        '/auth/twitter/callback',
+        '/auth/github',
+        '/auth/github/callback',
+        '/connect/google',
+        '/connect/google/callback',
+        '/connect/facebook',
+        '/connect/google/callback',
+        '/connect/facebook',
+        '/connect/facebook/callback',
+        '/connect/twitter',
+        '/connect/twitter/callback',
+        '/connect/github',
+        '/connect/github/callback',
+        '/unlink/google',
+        '/unlink/facebook',
+        '/unlink/twitter',
+        '/unlink/github'
       ]
     })
   );

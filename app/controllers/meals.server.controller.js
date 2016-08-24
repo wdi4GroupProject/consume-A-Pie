@@ -57,6 +57,16 @@ module.exports = {
 
     });
   },
+  deleteMeal:function(req,res,next){
+    Meal.remove({
+      _id: req.query.id
+    }, function(err, meal) {
+      if (err) return next(err);
+      res.json({
+        message: "Successfully deleted"
+      });
+    });
+  },
   showMealsByDay: function(req, res, next) {
     var start_date = new Date(req.query.start),
       end_date = new Date(req.query.end);
