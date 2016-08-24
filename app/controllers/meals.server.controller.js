@@ -84,14 +84,6 @@ module.exports = {
       if (err) return next(err);
       res.json(meals);
     });
-    // Meal.find(
-    //   {$and:[
-    //     {'$where':'this.day.toJSON().slice(0,10)=='+req.query.day+''},
-    //     {user_id:req.query.user_id}]
-    //   },
-    //   function(err,meals){
-    //   if(err) return next(err);
-    //   res.json(meals);
-    // });
+
   }
 };
