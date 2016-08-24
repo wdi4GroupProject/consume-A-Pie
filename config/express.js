@@ -34,20 +34,11 @@ module.exports = function() {
         '/login',
         '/API/login',
         '/API/signup',
-        '/'
-        // {
-        //   url: '/api/movies',
-        //   methods: ['GET']
-        // }, {
-        //   url: '/api/actors',
-        //   methods: ['GET']
-        // }, {
-        //   url: new RegExp('/api/movies.*/', 'i'),
-        //   methods: ['GET']
-        // }, {
-        //   url: new RegExp('/api/actors.*/', 'i'),
-        //   methods: ['GET']
-        // },
+        '/',
+        '/profile',
+        '/recipe',
+        '/recipe/new',
+        
       ]
     })
   );
