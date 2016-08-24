@@ -40,7 +40,14 @@ module.exports = function(app,passport){
       });
     }
   });
+  app.route('/API/authentication')
+  .post(function(req,res,next){
 
+    if (req.user.id == req.body.user) res.status(200).send({message:'ok'});
+
+    // else redirect them to the home page
+    res.status(401).send({message:'oops'});
+  });
 
 
 
