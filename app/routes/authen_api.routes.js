@@ -48,7 +48,10 @@ module.exports = function(app,passport){
     // else redirect them to the home page
     res.status(401).send({message:'oops'});
   });
-
+  app.get('/API/logout', function(req, res) {
+    req.logout();
+    res.status(200).send({message:'logged out!'});
+  });
 
 
 
