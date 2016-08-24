@@ -46,7 +46,9 @@ module.exports = {
     }, function(err, meal) {
       if (err) return next(err);
       if (meal.recipes.length > 0) {
-        meal.recipes.splice(req.body.recipe, 1);
+        var i = meal.recipes.indexOf(req.body.recipe);
+        console.log(i);
+        meal.recipes.splice(i, 1);
         meal.save(function(err) {
           if (err) return next(err);
           res.json(meal);
