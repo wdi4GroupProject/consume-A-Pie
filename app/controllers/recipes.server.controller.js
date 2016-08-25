@@ -11,10 +11,18 @@ module.exports = {
     //     res.json(recipes);
     //   });
     // });
-    Recipe.findAllNoneBlackList(req.query.user_id,function(err, recipes) {
+    if (req.query.user_id){
+      Recipe.findAllExcludeBlackList(req.query.user_id,function(err, recipes) {
         if (err) return next(err);
         res.json(recipes);
       });
+    } else {
+      Recipe.find({},function(err, recipes) {
+        if (err) return next(err);
+        res.json(recipes);
+      });
+    }
+
 
   },
   show: function(req, res, next) {
@@ -51,7 +59,8 @@ module.exports = {
     //   res.json(new_recipe);
     // });
 
-  }
+  },
+
 
 
 };

@@ -11,6 +11,8 @@ module.exports =function(app){
 
   //show meals on a selected day by a method of'get' with parameters 'start','end' days and 'user_id'
   app.route('/API/meals?')
-  .get(mealsController.showMealsByDay);
+  .get(mealsController.showMealsByDay)
+  .delete(mealsController.deleteMeal);
+
 
 };
