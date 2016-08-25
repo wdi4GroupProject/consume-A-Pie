@@ -63,16 +63,6 @@ app.get('/auth/github/callback',passport.authenticate('github',{
   failureRedirect:'/'
 }));
 
-//local authorization
-app.route('/connect/local')
-.get(function(req,res){
-  res.render('users/connect-local.ejs',{message:req.flash('loginMessage')});
-})
-.post(passport.authenticate('local-signup',{
-  successRedirect:'/profile',
-  failureRedirect:'connect/local',
-  failureFlash: true
-}));
 //google authorization
 app.get('/connect/google',passport.authorize('google',{
   scope:['profile','email']}));

@@ -6,10 +6,15 @@ var config = require('./config'),
   morgan = require('morgan'),
   compress = require('compression'),
   methodOverride = require('method-override'),
+  expressJWT = require('express-jwt'),
+  morgan = require('morgan'),
   cookieParser = require('cookie-parser'),
+  jwt = require('jsonwebtoken'),
   bodyParser = require('body-parser'),
   session = require('express-session'),
   expressLayouts = require('express-ejs-layouts');
+var jwt_secret = 'wdi4team5jwtsecret';
+
 
 module.exports = function() {
   var app = express();
@@ -17,9 +22,49 @@ module.exports = function() {
   //cors
   app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Methods", "DELETE,PUT");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
     next();
   });
+  //jwt setup
+  // app.use(expressJWT({
+  //     secret: jwt_secret
+  //   })
+  //   .unless({
+  //     path: ['/signup',
+  //       '/login',
+  //       '/API/login',
+  //       '/API/signup',
+  //       '/',
+  //       '/profile',
+  //       '/recipe',
+  //       '/recipe/new',
+  //       '/logout',
+  //       '/auth/google',
+  //       '/auth/google/callback',
+  //       '/auth/facebook',
+  //       '/auth/facebook/callback',
+  //       '/auth/twitter',
+  //       '/auth/twitter/callback',
+  //       '/auth/github',
+  //       '/auth/github/callback',
+  //       '/connect/google',
+  //       '/connect/google/callback',
+  //       '/connect/facebook',
+  //       '/connect/google/callback',
+  //       '/connect/facebook',
+  //       '/connect/facebook/callback',
+  //       '/connect/twitter',
+  //       '/connect/twitter/callback',
+  //       '/connect/github',
+  //       '/connect/github/callback',
+  //       '/unlink/google',
+  //       '/unlink/facebook',
+  //       '/unlink/twitter',
+  //       '/unlink/github'
+  //     ]
+  //   })
+  // );
   // initialize the required module
   if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
     app.use(morgan('dev'));
@@ -43,6 +88,8 @@ module.exports = function() {
   app.use(passport.initialize());
   app.use(passport.session()); // persistent login sessions
   app.use(flash()); // use connect-flash for flash messages stored in session
+
+
 
   app.set('views', './app/views');
   app.set('view engine', 'ejs');

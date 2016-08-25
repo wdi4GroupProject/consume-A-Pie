@@ -14,10 +14,10 @@ var recipeSchema = new mongoose.Schema({
     type: String,
     trim: true
   },
-  ingredients: {
+  ingredients: [{
     type: String,
     trim: true
-  },
+  }],
   image_url: {
     type: String,
     trim: true
@@ -31,22 +31,26 @@ var recipeSchema = new mongoose.Schema({
     trim: true
   }
 
-},
-{
-  timestamps: {createdAt: 'created_at'} }
-);
+}, {
+  timestamps: {
+    createdAt: 'created_at'
+  }
+});
 
-recipeSchema.statics.findAllNoneBlackList = function(user_id,callback){
+recipeSchema.statics.findAllExcludeBlackList = function(user_id, callback) {
   var that = this;
-  User.findOne({_id:user_id}).exec(function(err,user){
-    if(err) return next(err);
+  User.findOne({
+    _id: user_id
+  }).exec(function(err, user) {
+    if (err) return next(err);
     var black_list = user.black_list;
-    that.find({_id:{$nin: black_list }}, callback);
+    that.find({
+      _id: {
+        $nin: black_list
+      }
+    }, callback);
   });
 };
-
-
-
 
 //register the schema
 var Recipe = mongoose.model('Recipe', recipeSchema);

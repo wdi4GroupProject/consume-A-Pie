@@ -46,7 +46,8 @@ module.exports = {
     }, function(err, meal) {
       if (err) return next(err);
       if (meal.recipes.length > 0) {
-        meal.recipes.splice(req.body.recipe, 1);
+        var i = meal.recipes.indexOf(req.body.recipe);
+        meal.recipes.splice(i, 1);
         meal.save(function(err) {
           if (err) return next(err);
           res.json(meal);
@@ -55,6 +56,16 @@ module.exports = {
         return res.send('You have not chosen any recipe.');
       }
 
+    });
+  },
+  deleteMeal:function(req,res,next){
+    Meal.remove({
+      _id: req.query.id
+    }, function(err, meal) {
+      if (err) return next(err);
+      res.json({
+        message: "Successfully deleted"
+      });
     });
   },
   showMealsByDay: function(req, res, next) {
@@ -74,14 +85,6 @@ module.exports = {
       if (err) return next(err);
       res.json(meals);
     });
-    // Meal.find(
-    //   {$and:[
-    //     {'$where':'this.day.toJSON().slice(0,10)=='+req.query.day+''},
-    //     {user_id:req.query.user_id}]
-    //   },
-    //   function(err,meals){
-    //   if(err) return next(err);
-    //   res.json(meals);
-    // });
+
   }
 };
