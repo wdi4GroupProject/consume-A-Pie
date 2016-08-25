@@ -40,6 +40,7 @@ module.exports = function() {
         '/recipe',
         '/recipe/new',
         '/logout',
+        '/js/recipe.js',
         '/auth/google',
         '/auth/google/callback',
         '/auth/facebook',
