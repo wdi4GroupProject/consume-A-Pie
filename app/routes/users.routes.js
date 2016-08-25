@@ -12,4 +12,8 @@ module.exports = function(app){
   .post(usersController.login);
   app.route('/API/authentication')
   .post(usersController.authentication);
+  app.get('/API/logout', function(req, res) {
+    req.logout();
+    res.status(200).send({message:'logged out!'});
+  });
 };
