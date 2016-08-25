@@ -1,5 +1,4 @@
-var mongoose = require('mongoose'),
-  bcrypt = require('bcrypt');
+var mongoose = require('mongoose');
 
 var userSchema = mongoose.Schema({
 
@@ -45,17 +44,22 @@ var userSchema = mongoose.Schema({
 //bcrypt
 userSchema.pre('save', function(next) {
   var user = this;
-  //generate the saltRounds
-  bcrypt.genSalt(5, function(err, salt) {
-    if (err) return next(err);
-    //hash it
-    bcrypt.hash(user.local.password, salt, function(err, hash) {
-      //store hash pwd
-      user.local.password = hash;
-      next();
-    });
-  });
 
+  if (user.isModified("local.password")) {
+    // do something
+    //generate the saltRounds
+    bcrypt.genSalt(5, function(err, salt) {
+      if (err) return next(err);
+      //hash it
+      bcrypt.hash(user.local.password, salt, function(err, hash) {
+        //store hash pwd
+        user.local.password = hash;
+        next();
+      });
+    });
+  } else {
+    next();
+  }
 });
 userSchema.methods.authenticate = function (password,callback){
   //compare password

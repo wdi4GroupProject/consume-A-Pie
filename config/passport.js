@@ -6,6 +6,7 @@ var LocalStrategy = require('passport-local').Strategy,
 
 var User = require('../app/models/user.model'),
   authConfig = require('./auth');
+  bcrypt = require('bcrypt');
 
 module.exports = function(passport) {
 
@@ -45,9 +46,11 @@ module.exports = function(passport) {
           if (user) {
             return done(null, false, req.flash('signupMessage', 'That email is already taken.'));
           } else {
+            
             var newUser = new User();
             newUser.local.email = email;
             newUser.local.password = password;
+
             // save the user
             newUser.save(function(err) {
               if (err) {

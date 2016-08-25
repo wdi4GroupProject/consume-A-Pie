@@ -9,16 +9,9 @@ module.exports = function(app,passport){
         id: req.user.id,
         email: req.user.email
       };
-      var expiryObj = {
-        expiresIn: '10h'
-      };
-      var jwt_token = jwt.sign(payload, jwt_secret,expiryObj);
+      var jwt_token = jwt.sign(payload, jwt_secret);
       var jsonObj = {"id":req.session.passport.user,"token":jwt_token};
       res.json(jsonObj);
-    }else {
-      res.status(404).send({
-        message: 'Oops'
-      });
     }
   });
   app.route('/API/login')
@@ -28,10 +21,7 @@ module.exports = function(app,passport){
         id: req.user.id,
         email: req.user.email
       };
-      var expiryObj = {
-        expiresIn: '10h'
-      };
-      var jwt_token = jwt.sign(payload, jwt_secret,expiryObj);
+      var jwt_token = jwt.sign(payload, jwt_secret);
       var jsonObj = {"id":req.session.passport.user,"token":jwt_token};
       res.json(jsonObj);
     }else {
