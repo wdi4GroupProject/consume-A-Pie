@@ -14,7 +14,7 @@ module.exports = {
           });
         }
         else if (user.favourite_list.indexOf(req.query.recipe_id) !== -1) {
-          var i =user.favourite_list.indexOf(req.body.recipe_id);
+          var i =user.favourite_list.indexOf(req.query.recipe_id);
           user.favourite_list.splice(i,1);
           user.save(function(err, user) {
             if (err) return next(err);
@@ -31,7 +31,7 @@ module.exports = {
           });
         }
         else if (user.black_list.indexOf(req.query.recipe_id) !== -1) {
-          var j = user.black_list.indexOf(req.body.recipe_id);
+          var j = user.black_list.indexOf(req.query.recipe_id);
           user.black_list.splice(j,1);
           user.save(function(err, user) {
             if (err) return next(err);
