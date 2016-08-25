@@ -6,5 +6,10 @@ module.exports = function(app){
 
   app.route('/API/users/list?')
   .get(usersController.preferenceList);
-
+  app.route('/API/signup')
+  .post(usersController.signup);
+  app.route('/API/login')
+  .post(usersController.login);
+  app.route('/API/authentication')
+  .post(usersController.authentication);
 };
