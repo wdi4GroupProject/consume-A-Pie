@@ -14,10 +14,10 @@ var recipeSchema = new mongoose.Schema({
     type: String,
     trim: true
   },
-  ingredients: {
+  ingredients: [{
     type: String,
     trim: true
-  },
+  }],
   image_url: {
     type: String,
     trim: true
