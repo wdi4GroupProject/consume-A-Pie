@@ -42,16 +42,6 @@ module.exports = {
     new_recipe.save(function(err) {
       if (err) return next(err);
       res.json(new_recipe);
-      });
-
-
-    // var new_recipe = new Recipe(req.body);
-    // new_recipe.save(function(err){
-    //   if(err) return next(err);
-    //   res.json(new_recipe);
-    // });
-
+    });
   }
-
-
 };
