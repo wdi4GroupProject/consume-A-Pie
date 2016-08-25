@@ -129,7 +129,6 @@ module.exports = {
     });
   },
   authentication: function(req, res, next) {
-    if (err) return next(err);
     res.status(200).send({
       message: 'ok'
     });
