@@ -43,6 +43,8 @@ module.exports = function() {
   app.set('view engine', 'ejs');
   app.use(expressLayouts);
 
+
+
   // routes
   require('../app/routes/app.routes')(app, passport); // load our routes and pass in our app and fully configured passport
   require('../app/routes/recipes.routes')(app);
