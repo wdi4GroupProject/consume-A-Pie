@@ -27,44 +27,44 @@ module.exports = function() {
     next();
   });
   //jwt setup
-  // app.use(expressJWT({
-  //     secret: jwt_secret
-  //   })
-  //   .unless({
-  //     path: ['/signup',
-  //       '/login',
-  //       '/API/login',
-  //       '/API/signup',
-  //       '/',
-  //       '/profile',
-  //       '/recipe',
-  //       '/recipe/new',
-  //       '/logout',
-  //       '/auth/google',
-  //       '/auth/google/callback',
-  //       '/auth/facebook',
-  //       '/auth/facebook/callback',
-  //       '/auth/twitter',
-  //       '/auth/twitter/callback',
-  //       '/auth/github',
-  //       '/auth/github/callback',
-  //       '/connect/google',
-  //       '/connect/google/callback',
-  //       '/connect/facebook',
-  //       '/connect/google/callback',
-  //       '/connect/facebook',
-  //       '/connect/facebook/callback',
-  //       '/connect/twitter',
-  //       '/connect/twitter/callback',
-  //       '/connect/github',
-  //       '/connect/github/callback',
-  //       '/unlink/google',
-  //       '/unlink/facebook',
-  //       '/unlink/twitter',
-  //       '/unlink/github'
-  //     ]
-  //   })
-  // );
+  app.use(expressJWT({
+      secret: jwt_secret
+    })
+    .unless({
+      path: ['/signup',
+        '/login',
+        '/API/login',
+        '/API/signup',
+        '/',
+        '/profile',
+        '/recipe',
+        '/recipe/new',
+        '/logout',
+        '/auth/google',
+        '/auth/google/callback',
+        '/auth/facebook',
+        '/auth/facebook/callback',
+        '/auth/twitter',
+        '/auth/twitter/callback',
+        '/auth/github',
+        '/auth/github/callback',
+        '/connect/google',
+        '/connect/google/callback',
+        '/connect/facebook',
+        '/connect/google/callback',
+        '/connect/facebook',
+        '/connect/facebook/callback',
+        '/connect/twitter',
+        '/connect/twitter/callback',
+        '/connect/github',
+        '/connect/github/callback',
+        '/unlink/google',
+        '/unlink/facebook',
+        '/unlink/twitter',
+        '/unlink/github'
+      ]
+    })
+  );
   // initialize the required module
   if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
     app.use(morgan('dev'));
