@@ -81,6 +81,10 @@ module.exports = {
           if (err) {
             return res.status(401).send(err);
           } else {
+            var payload = {
+              id: user._id,
+              email: user.local.email
+            };
             var jwt_token = jwt.sign(payload, jwt_secret);
             var jsonObj = {
               "id": user._id,
