@@ -81,9 +81,13 @@ module.exports = {
           if (err) {
             return res.status(401).send(err);
           } else {
-            return res.status(200).send({
-              message: "user created"
-            });
+            var jwt_token = jwt.sign(payload, jwt_secret);
+            var jsonObj = {
+              "id": user._id,
+              "token": jwt_token
+            };
+
+            return res.status(200).json(jsonObj);
           }
         });
       }
