@@ -2,7 +2,7 @@
 
 For more information about the app, please read the readme file in the front-end repository.
 
-The frontend Repo can be found on: https://github.com/wdi4GroupProject/front_end_consume_A_Pie
+The frontend repo can be found on: https://github.com/wdi4GroupProject/front_end_consume_A_Pie
 
 App is deployed on: https://wdi4groupproject.github.io/front_end_consume_A_Pie/views/
 
